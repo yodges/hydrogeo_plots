@@ -32,8 +32,7 @@ def import_dfs():
     return dfs['input']
 
 
-def plot_section(dfs, fig=plt.figure(figsize=(10, 10)),
-                  well=dict(name='Template Well', ID='Template_Well', profile='Dynamic')):
+def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_Well', profile='Dynamic')):
     '''
     This function plots borehole lithology and/or well construction.
 
@@ -69,8 +68,7 @@ def plot_section(dfs, fig=plt.figure(figsize=(10, 10)),
                                ticks={'fontsize': 'large'},
                                data={'fontsize': 'small'})}
     units = {'L': dict(depth='ft', diam='in', datum='bgs')}
-
-
+    fig = plt.gcf()
     ax_well = plt.Axes(fig, [.85, .2, .1, .70])
     fig.add_axes(ax_well)
     ax_well.yaxis.set_minor_locator(AutoMinorLocator())
@@ -110,6 +108,7 @@ def plot_section(dfs, fig=plt.figure(figsize=(10, 10)),
                 ax_well.add_patch(
                     Polygon(dims['Lithology'][r.Index][k], closed=True, hatch=symbology['Lithology'][k]['hatch'],
                             facecolor=symbology['Lithology'][k]['color'], edgecolor='k'))
+    return fig
 
 
 plot_section(dfs=import_dfs())
