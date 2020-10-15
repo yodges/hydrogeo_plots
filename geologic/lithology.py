@@ -1,6 +1,3 @@
-## TODO: add simple plotting functions for hydrogeologic or lithologic section on a particular axis
-## TODO: include this in script with hydographs to plot multiport waterlevels with section ala USGS san diego wells
-
 import os, math
 import numpy as np
 import pandas as pd
@@ -59,10 +56,10 @@ def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_
     ax_specs = dict(max=dict(radius=48 / 2, depth=678),
                     min=dict(radius=48 / 2, depth=0))
 
-    symbology = {'Lithology': dict(gravel=dict(hatch='', color=(255 / 255, 204 / 255, 153 / 255, 0.3)),
-                                   sand=dict(hatch='', color=(255 / 255, 255 / 255, 153 / 255, 0.3)),
-                                   silt=dict(hatch='', color=(204 / 255, 255 / 255, 153 / 255, 0.3)),
-                                   clay=dict(hatch='', color=(153 / 255, 204 / 255, 255 / 255, 0.3))),
+    symbology = {'Lithology': dict(gravel=dict(hatch='', color='green'),
+                                   sand=dict(hatch='', color='lightblue'),
+                                   silt=dict(hatch='', color='gold'),
+                                   clay=dict(hatch='', color='crimson')),
                  'label': dict(title={'fontsize': 'x-large'},
                                axis={'fontsize': 'large'},
                                ticks={'fontsize': 'large'},
