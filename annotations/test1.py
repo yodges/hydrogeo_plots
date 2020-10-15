@@ -7,7 +7,7 @@ ax = fig.add_subplot(111)
 fig.subplots_adjust(top=0.85)
 
 # Set titles for the figure and the subplot respectively
-fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
+fig.suptitle('bold figure supertitle', fontsize=14, fontweight='bold')
 ax.set_title('axes title')
 
 ax.set_xlabel('xlabel')
