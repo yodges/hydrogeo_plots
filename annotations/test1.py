@@ -1,4 +1,4 @@
-## from matplotlib website
+## downloaded 10/14/2020 from matplotlib website
 ## https://matplotlib.org/3.3.1/tutorials/text/text_intro.html
 import matplotlib.pyplot as plt
 
