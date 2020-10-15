@@ -109,7 +109,3 @@ def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_
                     Polygon(dims['Lithology'][r.Index][k], closed=True, hatch=symbology['Lithology'][k]['hatch'],
                             facecolor=symbology['Lithology'][k]['color'], edgecolor='k'))
     return fig
-
-
-# plot_section(dfs=import_dfs())
-# plt.show()

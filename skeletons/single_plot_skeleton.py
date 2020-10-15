@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 
 
-def add_title(x_guide=0.88, y_guide=0.1, title="Figure X.Y", subtitle="This Figure", font1=12, font2=8, bbox={'facecolor': 'none', 'alpha': 0.5, 'pad': 25}):
+def add_title(x_guide=0.88, y_guide=0.1, title="Figure X.Y", subtitle="This Figure", font1=12, font2=8,
+              bbox={'facecolor': 'none', 'alpha': 0.5, 'pad': 25}):
     fig = plt.gcf()
     fig.suptitle('                  \n'
                  '                 ', x=x_guide, y=y_guide - .01,

@@ -3,7 +3,6 @@ import geologic.lithology as lith
 import skeletons.single_plot_skeleton as sps
 
 
-
 def plot_hydrograph():
     fig = plt.figure(figsize=(10, 10))
     lith.plot_section()
