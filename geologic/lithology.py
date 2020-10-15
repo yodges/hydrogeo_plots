@@ -111,5 +111,5 @@ def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_
     return fig
 
 
-plot_section(dfs=import_dfs())
-plt.show()
+# plot_section(dfs=import_dfs())
+# plt.show()
