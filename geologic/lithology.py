@@ -9,8 +9,8 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
 
 def import_dfs():
     dirs = {'wd': os.getcwd()}
-    dirs = {'input': os.path.join(dirs['wd'], 'input'),
-            'output': os.path.join(dirs['wd'], 'output')
+    dirs = {'input': os.path.join(dirs['wd'],'geologic', 'input'),
+            'output': os.path.join(dirs['wd'], 'geologic', 'output')
             }
 
     well = dict(name='Template Well', ID='Template_Well', profile='Dynamic')
