@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import single_plot_skeleton as sps
+import skeletons.single_plot_skeleton as sps
 
 
 def plot(title="Figure X.Y", subtitle="This Figure"):
@@ -10,7 +10,7 @@ def plot(title="Figure X.Y", subtitle="This Figure"):
     y = [x * x for x in range(100)]
     sps.add_title(fig, title=title, subtitle=subtitle)
     plt.plot(x, y, label='data')
-    y2 = [5*x for x in range(100)]
+    y2 = [5 * x for x in range(100)]
     plt.plot(x, y2, label='data2')
     plt.legend(loc='lower left', bbox_to_anchor=(legend_guide, 1.01), ncol=2,
                borderaxespad=0, frameon=False)
