@@ -10,11 +10,13 @@ ax.set_position([0.11, -.06, 0.85, 0.7])
 fig.suptitle('Figure X.Y \n'
              'This Figure', x=.88, y=.115, fontsize=14, fontweight='bold',
              bbox={'facecolor': 'white', 'alpha': 0.5, 'pad': 10})
-
-ax.set_title('axes title')
-
-ax.set_xlabel('xlabel')
-ax.set_ylabel('ylabel')
+x = [x for x in range(1000)]
+y = [x*x for x in range(1000)]
+ax.plot(x,y)
+# ax.set_title('axes title')
+#
+# ax.set_xlabel('xlabel')
+# ax.set_ylabel('ylabel')
 
 # Set both x- and y-axis limits to [0, 10] instead of default [0, 1]
 # ax.axis([0, 10, 0, 10])
