@@ -16,7 +16,7 @@ def read_data():
     return df
 
 
-def plot_title_labels(fig, ax, df):
+def plot_title_labels(ax, df):
     sps.add_title(x_guide=0.9, y_guide=0.115, title="Figure X.Y",
                   subtitle="subtitle", font1=16, font2=12,
                   bbox={'facecolor': 'none', 'alpha': 0.5, 'pad': 44})
@@ -38,5 +38,5 @@ def plot_hydrograph():
     ax0 = plt.Axes(fig, [.075, .2, .7, .70])
     fig.add_axes(ax0)
     plt.plot(df.index, df['wl'])
-    plot_title_labels(fig, ax0, df)
+    plot_title_labels(ax0, df)
     plt.show()
