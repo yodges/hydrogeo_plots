@@ -47,6 +47,7 @@ def set_colors(dfs, symbology):
             lay_bot = getattr(j, 'Depth_Bot_ft')
             if well_top >= lay_top and well_bot <= lay_bot:
                 colors[well_id] = symbology['Lithology'][material]['color']
+    return colors
 
 
 def plot_hydrograph():
@@ -55,8 +56,11 @@ def plot_hydrograph():
     bb.plot_boundary_box(facecolor='none')
     dfs, well, symbology = lith.plot_section()
     colors = set_colors(dfs, symbology)
+    print(colors)
     ax0 = plt.Axes(fig, [.075, .2, .7, .70])
     fig.add_axes(ax0)
-    plt.plot(df.index, df['wl'])
+    #plt.plot(df.index, df['wl'], c=colors)
+    for color in colors.keys():
+        plt.plot(df.index, df['wl'][color], color=colors[color], linewidth=2)
     plot_title_labels(ax0, df)
     plt.show()
