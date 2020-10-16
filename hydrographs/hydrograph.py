@@ -5,10 +5,11 @@ import skeletons.single_plot_skeleton as sps
 import skeletons.boundingbox as bb
 import os
 
-#TODO change lithology to pd.read_csv instead of read_excel
-#TODO read all wells from single dataset (one for wl data, one for hydrogeology)
-#TODO colorcode lines by formation symbology
-#TODO add geologic legend to bottom
+
+# TODO add geologic legend to bottom
+# TODO colorcode lines by formation symbology
+# TODO read all wells from single dataset (one for wl data, one for hydrogeology, etc)
+# TODO change lithology to pd.read_csv instead of read_excel
 
 def prep_data():
     fn = 'wl_sldl.csv'
@@ -37,7 +38,7 @@ def plot_title_labels(ax, df):
 def plot_hydrograph():
     df = prep_data()
     fig = plt.figure(figsize=(12, 10))
-    bb.plot_boundary_box()
+    bb.plot_boundary_box(facecolor='ivory')
     lith.plot_section()
     ax0 = plt.Axes(fig, [.075, .2, .7, .70])
     fig.add_axes(ax0)

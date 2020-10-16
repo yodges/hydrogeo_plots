@@ -29,7 +29,20 @@ def import_dfs():
     return dfs['input']
 
 
-def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_Well', profile='Dynamic')):
+def plot_section(dfs=import_dfs(),
+                 well=dict(name='Template Well', ID='Template_Well', profile='Dynamic', depth=2620),
+                 ax_specs=dict(max=dict(radius=48 / 2, depth=2620),
+                               min=dict(radius=48 / 2, depth=0)),
+                 symbology={'Lithology': dict(one=dict(hatch='', color='#f5f095'),
+                                              two=dict(hatch='', color='#edbd4e'),
+                                              three=dict(hatch='', color='#2e86f2'),
+                                              four=dict(hatch='', color='lightblue'),
+                                              five=dict(hatch='', color='#709c62')),
+                            'label': dict(title={'fontsize': 'x-large'},
+                                          axis={'fontsize': 'large'},
+                                          ticks={'fontsize': 'large'},
+                                          data={'fontsize': 'small'})},
+                 units={'L': dict(depth='ft', diam='in', datum='bgs')}):
     '''
     This function plots borehole lithology and/or well construction.
 
@@ -53,20 +66,8 @@ def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_
     - symbology: dictionary of symbology for each component (lithology, well_components, water levels)
     - units: dictionary of units
     '''
-    ax_specs = dict(max=dict(radius=48 / 2, depth=678),
-                    min=dict(radius=48 / 2, depth=0))
-
-    symbology = {'Lithology': dict(gravel=dict(hatch='', color='green'),
-                                   sand=dict(hatch='', color='lightblue'),
-                                   silt=dict(hatch='', color='gold'),
-                                   clay=dict(hatch='', color='crimson')),
-                 'label': dict(title={'fontsize': 'x-large'},
-                               axis={'fontsize': 'large'},
-                               ticks={'fontsize': 'large'},
-                               data={'fontsize': 'small'})}
-    units = {'L': dict(depth='ft', diam='in', datum='bgs')}
     fig = plt.gcf()
-    ax_well = plt.Axes(fig, [.875, .2, .075, .70])
+    ax_well = plt.Axes(fig, [.875, .2, .05, .70])
     fig.add_axes(ax_well)
     ax_well.yaxis.set_minor_locator(AutoMinorLocator())
     ax_well.set_ylim([ax_specs['max']['depth'], ax_specs['min']['depth']])
@@ -75,6 +76,9 @@ def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_
     ax_well.tick_params(axis='both', labelsize=symbology['label']['ticks']['fontsize'], labelleft=True)
     ax_well.set_title(well['name'], fontsize=symbology['label']['title']['fontsize'])
     ax_well.set_ylabel('Depth (ft)')
+    legend_components = ['Lithology']
+    symbology['legend'] = dict(depth_buffer=.005,
+                               items={'fontsize': 'medium'})
     # polygon vertices indices
     idx = {'depth': {'rows': {'top': np.array([0.5, 1], dtype=np.int),
                               'bot': np.array([2, 3], dtype=np.int)},
@@ -106,4 +110,39 @@ def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_
                 ax_well.add_patch(
                     Polygon(dims['Lithology'][r.Index][k], closed=True, hatch=symbology['Lithology'][k]['hatch'],
                             facecolor=symbology['Lithology'][k]['color'], edgecolor='k'))
+    ax_leg = plt.Axes(fig, [.025, 0.01, .815, .117], facecolor='none')
+    fig.add_axes(ax_leg)
+    # ax_leg.set_title('Legend', fontsize=symbology['label']['title']['fontsize'])
+    ax_leg.tick_params(axis='both', which='both', bottom=False,
+                       left=False, top=False, right=False,
+                       labelleft=False, labelbottom=False)
+    items = {}
+    for component in legend_components:
+        field = 'Material'
+        if component == 'Water Level':
+            field = 'Type'
+            items[component] = dfs[component][field].unique().tolist()
+        else:
+            items[component] = dfs[component][field].unique().tolist()
+    leg_ylim = [.25, .25]
+    ax_leg.set_ylim(leg_ylim)
+    for component in legend_components:
+        if len(dfs[component].index) > 0:
+            height = symbology['legend']['depth_buffer']
+            width = .05
+            ax_leg.annotate(component, (leg_ylim[0], leg_ylim[1]), weight='bold',
+                            fontsize=symbology['legend']['items']['fontsize'])
+            for item in items[component]:
+                leg_ylim[0] +=.1
+                leg_item_ylim = [leg_ylim[0], leg_ylim[1]]
+                xy = [leg_item_ylim[0], leg_item_ylim[1]]
+                for k in symbology['Lithology'].keys():
+                    if k in item:
+                        ax_leg.add_patch(
+                            Rectangle(xy, width, height, facecolor=symbology[component][k]['color'],
+                                      hatch=symbology[component][k]['hatch'], edgecolor='k'))
+                    ax_leg.annotate('     ' + item.replace('_', ', '), (leg_item_ylim[0]-.015, leg_item_ylim[1]+.0075),
+                                    fontsize=symbology['legend']['items']['fontsize'], va='center')
+
+
     return fig
