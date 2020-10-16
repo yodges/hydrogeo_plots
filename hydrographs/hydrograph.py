@@ -24,6 +24,10 @@ def plot_title_labels(fig, ax, df):
     ax.set_title('Suptitle')
     axes = plt.gca()
     axes.yaxis.grid()
+    legend_guide = 0.1
+    labels = [df['wl'][f'SDLD{id}'].name for id in range(1, 7)]
+    plt.legend(labels, loc='lower left', bbox_to_anchor=(legend_guide, -0.1),
+               ncol=6, borderaxespad=0, frameon=False)
 
 
 def plot_hydrograph():
@@ -34,9 +38,5 @@ def plot_hydrograph():
     ax0 = plt.Axes(fig, [.075, .2, .7, .70])
     fig.add_axes(ax0)
     plt.plot(df.index, df['wl'])
-    legend_guide = 0.1
-    labels = [df['wl'][f'SDLD{id}'].name for id in range(1, 7)]
-    plt.legend(labels, loc='lower left', bbox_to_anchor=(legend_guide, -0.1),
-               ncol=6, borderaxespad=0, frameon=False)
     plot_title_labels(fig, ax0, df)
     plt.show()
