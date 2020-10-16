@@ -28,12 +28,9 @@ def plot_hydrograph():
                   bbox={'facecolor': 'none', 'alpha': 0.5, 'pad': 44})
     fig.add_axes(ax0)
     ax0.set_ylabel('Depth (ft)')
-    legend_guide = 0.3
     plt.plot(df.index, df['wl'])
-    plt.legend(loc='lower left', bbox_to_anchor=(legend_guide, 1.01), ncol=2,
-               borderaxespad=0, frameon=False)
+    legend_guide = 0.1
+    plt.legend([df['wl']['SDLD1'].name, df['wl']['SDLD2'].name, df['wl']['SDLD3'].name, df['wl']['SDLD4'].name,
+                df['wl']['SDLD5'].name, df['wl']['SDLD6'].name], loc='lower left',
+               bbox_to_anchor=(legend_guide, 1.01), ncol=6, borderaxespad=0, frameon=False)
     plt.show()
-
-
-if __name__ == '__main__':
-    plot_hydrograph()
