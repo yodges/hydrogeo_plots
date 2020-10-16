@@ -16,7 +16,7 @@ def import_dfs():
     well = dict(name='Template Well', ID='Template_Well', profile='Dynamic')
 
     files = dict(input=dict(workbook=well['ID'] + '_Data.xlsx',
-                            worksheet=['Lithology']),
+                            worksheet=['Lithology', 'Well']),
                  output={'table': dict(workbook=well['ID'] + '_Profile.xlsx'),
                          'figure': dict(format='png', dpi=200, transparent=False)
                          })
@@ -123,7 +123,7 @@ def plot_section(dfs=import_dfs(),
             items[component] = dfs[component][field].unique().tolist()
         else:
             items[component] = dfs[component][field].unique().tolist()
-    leg_lim = [.05, .3]
+    leg_lim = [.05, .35]
     for component in legend_components:
         if len(dfs[component].index) > 0:
             height = symbology['legend']['depth_buffer']
@@ -143,4 +143,4 @@ def plot_section(dfs=import_dfs(),
                                     (leg_item_ylim[0] - .01, leg_item_ylim[1]+.35),
                                     fontsize=symbology['legend']['items']['fontsize'], va='center')
 
-    return fig
+    return dfs, well, symbology

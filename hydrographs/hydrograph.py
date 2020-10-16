@@ -35,11 +35,26 @@ def plot_title_labels(ax, df):
                ncol=6, borderaxespad=0, frameon=False)
 
 
+def set_colors(dfs, symbology):
+    colors = {}
+    for i in dfs['Well'].itertuples():
+        well_id = getattr(i, 'well_id')
+        well_top = getattr(i, 'Depth_Top_ft')
+        well_bot = getattr(i, 'Depth_Bot_ft')
+        for j in dfs['Lithology'].itertuples():
+            material = getattr(j, 'Material')
+            lay_top = getattr(j, 'Depth_Top_ft')
+            lay_bot = getattr(j, 'Depth_Bot_ft')
+            if well_top >= lay_top and well_bot <= lay_bot:
+                colors[well_id] = symbology['Lithology'][material]['color']
+
+
 def plot_hydrograph():
     df = prep_data()
     fig = plt.figure(figsize=(12, 10))
-    bb.plot_boundary_box(facecolor='ivory')
-    lith.plot_section()
+    bb.plot_boundary_box(facecolor='none')
+    dfs, well, symbology = lith.plot_section()
+    colors = set_colors(dfs, symbology)
     ax0 = plt.Axes(fig, [.075, .2, .7, .70])
     fig.add_axes(ax0)
     plt.plot(df.index, df['wl'])
