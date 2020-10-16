@@ -112,7 +112,6 @@ def plot_section(dfs=import_dfs(),
                             facecolor=symbology['Lithology'][k]['color'], edgecolor='k'))
     ax_leg = plt.Axes(fig, [.025, 0.01, .815, .117], facecolor='none')
     fig.add_axes(ax_leg)
-    # ax_leg.set_title('Legend', fontsize=symbology['label']['title']['fontsize'])
     ax_leg.tick_params(axis='both', which='both', bottom=False,
                        left=False, top=False, right=False,
                        labelleft=False, labelbottom=False)
@@ -124,25 +123,25 @@ def plot_section(dfs=import_dfs(),
             items[component] = dfs[component][field].unique().tolist()
         else:
             items[component] = dfs[component][field].unique().tolist()
-    leg_ylim = [.25, .25]
+    leg_ylim = [.2, .2]
     ax_leg.set_ylim(leg_ylim)
     for component in legend_components:
         if len(dfs[component].index) > 0:
             height = symbology['legend']['depth_buffer']
             width = .05
-            ax_leg.annotate(component, (leg_ylim[0], leg_ylim[1]), weight='bold',
+            ax_leg.annotate(component, (leg_ylim[0]-.01, leg_ylim[1]-.004), weight='bold',
                             fontsize=symbology['legend']['items']['fontsize'])
             for item in items[component]:
-                leg_ylim[0] +=.1
+                leg_ylim[0] += .1
                 leg_item_ylim = [leg_ylim[0], leg_ylim[1]]
-                xy = [leg_item_ylim[0], leg_item_ylim[1]]
+                xy = [leg_item_ylim[0], leg_item_ylim[1]-.005]
                 for k in symbology['Lithology'].keys():
                     if k in item:
                         ax_leg.add_patch(
                             Rectangle(xy, width, height, facecolor=symbology[component][k]['color'],
                                       hatch=symbology[component][k]['hatch'], edgecolor='k'))
-                    ax_leg.annotate('     ' + item.replace('_', ', '), (leg_item_ylim[0]-.015, leg_item_ylim[1]+.0075),
+                    ax_leg.annotate('     ' + item.replace('_', ', '),
+                                    (leg_item_ylim[0] - .015, leg_item_ylim[1]+.0025),
                                     fontsize=symbology['legend']['items']['fontsize'], va='center')
-
 
     return fig
