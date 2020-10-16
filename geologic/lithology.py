@@ -77,7 +77,7 @@ def plot_section(dfs=import_dfs(),
     ax_well.set_title(well['name'], fontsize=symbology['label']['title']['fontsize'])
     ax_well.set_ylabel('Depth (ft)')
     legend_components = ['Lithology']
-    symbology['legend'] = dict(depth_buffer=.005,
+    symbology['legend'] = dict(depth_buffer=.25,
                                items={'fontsize': 'medium'})
     # polygon vertices indices
     idx = {'depth': {'rows': {'top': np.array([0.5, 1], dtype=np.int),
@@ -110,7 +110,7 @@ def plot_section(dfs=import_dfs(),
                 ax_well.add_patch(
                     Polygon(dims['Lithology'][r.Index][k], closed=True, hatch=symbology['Lithology'][k]['hatch'],
                             facecolor=symbology['Lithology'][k]['color'], edgecolor='k'))
-    ax_leg = plt.Axes(fig, [.025, 0.01, .815, .117], facecolor='none')
+    ax_leg = plt.Axes(fig, [.01, 0.01, .83, .117], facecolor='none')
     fig.add_axes(ax_leg)
     ax_leg.tick_params(axis='both', which='both', bottom=False,
                        left=False, top=False, right=False,
@@ -123,25 +123,24 @@ def plot_section(dfs=import_dfs(),
             items[component] = dfs[component][field].unique().tolist()
         else:
             items[component] = dfs[component][field].unique().tolist()
-    leg_ylim = [.2, .2]
-    ax_leg.set_ylim(leg_ylim)
+    leg_lim = [.05, .3]
     for component in legend_components:
         if len(dfs[component].index) > 0:
             height = symbology['legend']['depth_buffer']
             width = .05
-            ax_leg.annotate(component, (leg_ylim[0]-.01, leg_ylim[1]-.004), weight='bold',
+            ax_leg.annotate(component, (leg_lim[0], leg_lim[1]+.05), weight='bold',
                             fontsize=symbology['legend']['items']['fontsize'])
             for item in items[component]:
-                leg_ylim[0] += .1
-                leg_item_ylim = [leg_ylim[0], leg_ylim[1]]
-                xy = [leg_item_ylim[0], leg_item_ylim[1]-.005]
+                leg_lim[0] += .1
+                leg_item_ylim = [leg_lim[0], leg_lim[1]]
+                xy = [leg_item_ylim[0], leg_item_ylim[1]]
                 for k in symbology['Lithology'].keys():
                     if k in item:
                         ax_leg.add_patch(
                             Rectangle(xy, width, height, facecolor=symbology[component][k]['color'],
                                       hatch=symbology[component][k]['hatch'], edgecolor='k'))
                     ax_leg.annotate('     ' + item.replace('_', ', '),
-                                    (leg_item_ylim[0] - .015, leg_item_ylim[1]+.0025),
+                                    (leg_item_ylim[0] - .01, leg_item_ylim[1]+.35),
                                     fontsize=symbology['legend']['items']['fontsize'], va='center')
 
     return fig
