@@ -1,10 +1,24 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 import geologic.lithology as lith
 import skeletons.single_plot_skeleton as sps
 import skeletons.boundingbox as bb
+import os
+
+
+def read_data():
+    fn = 'wl_sldl.csv'
+    wlpath = {'wd': os.getcwd()}
+    wlpath = {'input': os.path.join(wlpath['wd'], 'hydrographs', 'input', fn)}
+    df = pd.read_csv(wlpath['input'])
+    df['date'] = pd.to_datetime(df['date'])
+    df = pd.pivot_table(df, index=df['date'], columns=df['well id'])
+    return df
 
 
 def plot_hydrograph():
+    df = read_data()
+    print(df.head())
     fig = plt.figure(figsize=(12, 10))
     bb.plot_boundary_box()
     lith.plot_section()
@@ -15,11 +29,7 @@ def plot_hydrograph():
     fig.add_axes(ax0)
     ax0.set_ylabel('Depth (ft)')
     legend_guide = 0.3
-    x = [x for x in range(100)]
-    y = [x * x for x in range(100)]
-    plt.plot(x, y, label='data')
-    y2 = [5 * x for x in range(100)]
-    plt.plot(x, y2, label='data2')
+    plt.plot(df.index, df['wl'])
     plt.legend(loc='lower left', bbox_to_anchor=(legend_guide, 1.01), ncol=2,
                borderaxespad=0, frameon=False)
     plt.show()

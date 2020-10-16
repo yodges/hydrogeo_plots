@@ -8,9 +8,9 @@ from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
 
 
 def import_dfs():
-    dirs = {'wd': os.getcwd()}
-    dirs = {'input': os.path.join(dirs['wd'],'geologic', 'input'),
-            'output': os.path.join(dirs['wd'], 'geologic', 'output')
+    path = {'wd': os.getcwd()}
+    path = {'input': os.path.join(path['wd'], 'geologic', 'input'),
+            'output': os.path.join(path['wd'], 'geologic', 'output')
             }
 
     well = dict(name='Template Well', ID='Template_Well', profile='Dynamic')
@@ -24,7 +24,7 @@ def import_dfs():
     dfs = {'input': {}}
     print('Importing data from:', files['input']['workbook'])
     for ws in files['input']['worksheet']:
-        dfs['input'][ws] = pd.read_excel(os.path.join(dirs['input'], files['input']['workbook']), sheet_name=ws)
+        dfs['input'][ws] = pd.read_excel(os.path.join(path['input'], files['input']['workbook']), sheet_name=ws)
         print('\tImported:', ws)
     return dfs['input']
 
