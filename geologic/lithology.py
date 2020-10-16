@@ -66,7 +66,7 @@ def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_
                                data={'fontsize': 'small'})}
     units = {'L': dict(depth='ft', diam='in', datum='bgs')}
     fig = plt.gcf()
-    ax_well = plt.Axes(fig, [.85, .2, .1, .70])
+    ax_well = plt.Axes(fig, [.875, .2, .075, .70])
     fig.add_axes(ax_well)
     ax_well.yaxis.set_minor_locator(AutoMinorLocator())
     ax_well.set_ylim([ax_specs['max']['depth'], ax_specs['min']['depth']])
@@ -74,6 +74,7 @@ def plot_section(dfs=import_dfs(), well=dict(name='Template Well', ID='Template_
     ax_well.set_xticks(ticks=[])
     ax_well.tick_params(axis='both', labelsize=symbology['label']['ticks']['fontsize'], labelleft=True)
     ax_well.set_title(well['name'], fontsize=symbology['label']['title']['fontsize'])
+    ax_well.set_ylabel('Depth (ft)')
     # polygon vertices indices
     idx = {'depth': {'rows': {'top': np.array([0.5, 1], dtype=np.int),
                               'bot': np.array([2, 3], dtype=np.int)},
