@@ -5,10 +5,13 @@ import skeletons.single_plot_skeleton as sps
 import skeletons.boundingbox as bb
 import os
 
+
 # TODO add nested ports to lith section
 # TODO add port depths to legend
 # TODO annotate lines with well id
-# TODO read all wells from single dataset (one for wl data, one for hydrogeology, etc)
+# TODO plot shared y_axes
+# TODO read multiple wells from single input dataset (one for wl data, one for hydrogeology, etc)
+# TODO dynamically adjusted axes and items layout according to given figure sizes
 # TODO change lithology to pd.read_csv instead of read_excel
 
 def prep_data():
@@ -24,13 +27,13 @@ def prep_data():
 def plot_title_labels(ax, df):
     sps.add_title(x_guide=0.915, y_guide=0.095, title="Figure X.Y",
                   subtitle="subtitle", font1=16, font2=12,
-                  bbox={'facecolor': 'none', 'alpha': 0.5, 'pad': 30})
+                  bbox={'facecolor': 'none', 'alpha': 0.5, 'pad': 30, 'linewidth': '1.5'})
     ax.set_ylabel('Elevation (ft, msl)')
     ax.set_title('Suptitle')
     axes = plt.gca()
     axes.yaxis.grid()
     legend_guide = 0.1
-    labels = [df['wl'][f'SDLD{id}'].name for id in range(1, 7)]
+    labels = [df['wl'][f'SDLD{i}'].name for i in range(1, 7)]
     plt.legend(labels, loc='lower left', bbox_to_anchor=(legend_guide, -0.091),
                ncol=6, borderaxespad=0, frameon=False)
 
@@ -55,10 +58,10 @@ def plot_hydrograph():
     fig = plt.figure(figsize=(12, 10))
     bb.plot_boundary_box(facecolor='ivory')
     dfs, well, symbology = lith.plot_section()
-    colors = set_colors(dfs, symbology)
-    ax0 = plt.Axes(fig, [.075, .2, .7, .70])
-    fig.add_axes(ax0)
-    for color in colors.keys():
-        plt.plot(df.index, df['wl'][color], color=colors[color], linewidth=3)
-    plot_title_labels(ax0, df)
+    well_colors = set_colors(dfs, symbology)
+    ax_wl = plt.Axes(fig, [.075, .2, .7, .70])
+    fig.add_axes(ax_wl)
+    for well_id in well_colors.keys():
+        plt.plot(df.index, df['wl'][well_id], color=well_colors[well_id], linewidth=3)
+    plot_title_labels(ax_wl, df)
     plt.show()

@@ -1,11 +1,16 @@
-import os, math
+import os
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle, Polygon, Patch, FancyBboxPatch
-from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
-                               AutoMinorLocator)
+from matplotlib.patches import Rectangle, Polygon
+from matplotlib.ticker import (AutoMinorLocator)
 
+
+# TODO refactor to one function for each plotting action (i.e. plot_section(), plot_legend(), plot_borehole(), etc)
+# TODO fix mutable default args
+# TODO remove any dict literals
+# TODO replace (some) dicts with namedtuples or defaultdicts
+# TODO dynamically adjust legend sizing and placement according to current data being plotted
 
 def import_dfs():
     path = {'wd': os.getcwd()}
@@ -128,7 +133,7 @@ def plot_section(dfs=import_dfs(),
         if len(dfs[component].index) > 0:
             height = symbology['legend']['depth_buffer']
             width = .05
-            ax_leg.annotate(component, (leg_lim[0], leg_lim[1]+.05), weight='bold',
+            ax_leg.annotate(component, (leg_lim[0], leg_lim[1] + .05), weight='bold',
                             fontsize=symbology['legend']['items']['fontsize'])
             for item in items[component]:
                 leg_lim[0] += .1
@@ -140,7 +145,7 @@ def plot_section(dfs=import_dfs(),
                             Rectangle(xy, width, height, facecolor=symbology[component][k]['color'],
                                       hatch=symbology[component][k]['hatch'], edgecolor='k'))
                     ax_leg.annotate('     ' + item.replace('_', ', '),
-                                    (leg_item_ylim[0] - .01, leg_item_ylim[1]+.35),
+                                    (leg_item_ylim[0] - .01, leg_item_ylim[1] + .35),
                                     fontsize=symbology['legend']['items']['fontsize'], va='center')
 
     return dfs, well, symbology
