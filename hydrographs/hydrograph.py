@@ -5,9 +5,9 @@ import skeletons.single_plot_skeleton as sps
 import skeletons.boundingbox as bb
 import os
 
-
-# TODO add geologic legend to bottom
-# TODO colorcode lines by formation symbology
+# TODO add nested ports to lith section
+# TODO add port depths to legend
+# TODO annotate lines with well id
 # TODO read all wells from single dataset (one for wl data, one for hydrogeology, etc)
 # TODO change lithology to pd.read_csv instead of read_excel
 
@@ -31,7 +31,7 @@ def plot_title_labels(ax, df):
     axes.yaxis.grid()
     legend_guide = 0.1
     labels = [df['wl'][f'SDLD{id}'].name for id in range(1, 7)]
-    plt.legend(labels, loc='lower left', bbox_to_anchor=(legend_guide, -0.1),
+    plt.legend(labels, loc='lower left', bbox_to_anchor=(legend_guide, -0.091),
                ncol=6, borderaxespad=0, frameon=False)
 
 
@@ -53,14 +53,12 @@ def set_colors(dfs, symbology):
 def plot_hydrograph():
     df = prep_data()
     fig = plt.figure(figsize=(12, 10))
-    bb.plot_boundary_box(facecolor='none')
+    bb.plot_boundary_box(facecolor='ivory')
     dfs, well, symbology = lith.plot_section()
     colors = set_colors(dfs, symbology)
-    print(colors)
     ax0 = plt.Axes(fig, [.075, .2, .7, .70])
     fig.add_axes(ax0)
-    #plt.plot(df.index, df['wl'], c=colors)
     for color in colors.keys():
-        plt.plot(df.index, df['wl'][color], color=colors[color], linewidth=2)
+        plt.plot(df.index, df['wl'][color], color=colors[color], linewidth=3)
     plot_title_labels(ax0, df)
     plt.show()
